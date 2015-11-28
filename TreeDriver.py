@@ -10,7 +10,10 @@ class TreeDriver:
 def main():
     tree = Tree()
     inFile = sys.argv[1]
-    tree.print_tree_levels()
+    prnt = tree.read_paths(inFile)
+    #print(prnt)
+    tree.do_stuff(inFile)
+
 
 
 if __name__ == '__main__':

@@ -16,7 +16,6 @@ class Tree():
         with open(input_file, "r") as paths:
             for line in paths:
                 self.path_list.append(line.rstrip())
-
         return self.path_list
 
     def build_complete_tree(self):
@@ -28,13 +27,16 @@ class Tree():
         current_node = PathNode(self.path_list[index])
         if (index == 1):
             self.root = current_node
+
         if (index == len(self.path_list) - 1):
             self.last_node = current_node
         current_node.set_parent(new_parent)
+
         if (index*2 < len(self.path_list)):
             current_node.set_left_child(self.populate_tree(index*2, current_node))
         if (index*2+1 < len(self.path_list)):
             current_node.set_right_child(self.populate_tree(index*2+1, current_node))
+
         return current_node
 
     def set_sibling_links(self, root):
@@ -75,7 +77,28 @@ class Tree():
                 end_node = end_node.left_child
     '''
 
+    def print_tree_levels(self):
+        '''
+        Prints the lengths of the paths in each level of the tree.
+        '''
+        #source_dest = self.read_source_dest(sys.argv[2])
+        #print('[' + str(source_dest[0]) + ', ' + str(source_dest[1]) + ']')
+        if (len(self.path_list) != 1):
+            print('\tRoot: ' + str(len(self.root.path) - 1))
+            end_node = self.root.left_child
+            current_level = 1
+            while end_node != None:
+                string = '\tLevel ' + str(current_level) + ': '
+                current_node = end_node
+                while current_node != None:
+                    string += str(len(current_node.path) - 1) + ' '
+                    current_node = current_node.sibling
+                print(string)
+                current_level += 1
+                end_node = end_node.left_child
+
+
     def do_stuff(self, in_file):
         self.read_paths(in_file)
         self.build_complete_tree()
-        #self.print_tree_levels()
+        self.print_tree_levels()
