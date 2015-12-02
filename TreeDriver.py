@@ -10,8 +10,6 @@ class TreeDriver:
 def main():
     tree = Tree()
     inFile = sys.argv[1]
-    #prnt = tree.read_paths(inFile)
-    #print(prnt)
     tree.do_stuff(inFile)
 
 

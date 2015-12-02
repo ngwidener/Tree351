@@ -14,21 +14,34 @@ class Tree():
         self.last_node = None
 
     def read_paths(self, input_file):
+        """
+        reads in the line from the input file, splits it up by the number of whitespaces and newline characters
+        adds them to the path_list
+        :param input_file: the file that will be read in
+        :return: returns the path_list that the input_file will be read into.
+        """
         with open(input_file, 'r') as paths:
 
             for line in paths:
                 self.path_list.append(line.rstrip('\n').split(' '))
-                #print(len(self.path_list))
-                print(len(line))
-
         return self.path_list
 
     def build_complete_tree(self):
+        """
+        Builds the tree by checking the length of the path_list and calling the populate tree method and
+        set_siblings_links method
+        """
         if (len(self.path_list) != 1):
             self.populate_tree()
             self.set_sibling_links(self.root)
 
     def populate_tree(self, index=0, new_parent=None):
+        """
+        Populates the tree
+        :param index: the number i starting at 0 and incrementing with each node
+        :param new_parent: A new node
+        :return: the current_node in the tree
+        """
         current_node = PathNode(self.path_list[index])
         if (index == 0):
             self.root = current_node
@@ -67,8 +80,7 @@ class Tree():
         '''
         Prints the lengths of the paths in each level of the tree.
         '''
-        #source_dest = self.read_source_dest(sys.argv[2])
-        #print('[' + str(source_dest[0]) + ', ' + str(source_dest[1]) + ']')
+
         if (len(self.path_list) != 1):
             print('\tRoot: ' + str(len(self.root.path) - 1))
             end_node = self.root.left_child
@@ -77,17 +89,18 @@ class Tree():
                 string = '\tLevel ' + str(current_level) + ': '
                 current_node = end_node
                 while current_node != None:
-                    #print("is it printing here")
                     string += str(len(current_node.path) - 1) + ' '
                     current_node = current_node.sibling
 
                 print(string)
                 current_level += 1
                 end_node = end_node.left_child
-            #print(str(len(current_node.path)))
-
 
     def do_stuff(self, in_file):
+        """
+        Calls all the methods above to work together
+        :param in_file: the file that will be read in when do_stuff is called in the driver
+        """
         self.read_paths(in_file)
         self.build_complete_tree()
         self.print_tree_levels()
