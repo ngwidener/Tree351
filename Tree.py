@@ -14,9 +14,13 @@ class Tree():
         self.last_node = None
 
     def read_paths(self, input_file):
-        with open(input_file, "r") as paths:
+        with open(input_file, 'r') as paths:
+
             for line in paths:
-                self.path_list.append(line.rstrip())
+                self.path_list.append(line.rstrip('\n').split(' '))
+                #print(len(self.path_list))
+                print(len(line))
+
         return self.path_list
 
     def build_complete_tree(self):
@@ -24,9 +28,9 @@ class Tree():
             self.populate_tree()
             self.set_sibling_links(self.root)
 
-    def populate_tree(self, index=1, new_parent=None):
+    def populate_tree(self, index=0, new_parent=None):
         current_node = PathNode(self.path_list[index])
-        if (index == 1):
+        if (index == 0):
             self.root = current_node
 
         if (index == len(self.path_list) - 1):
@@ -76,9 +80,11 @@ class Tree():
                     #print("is it printing here")
                     string += str(len(current_node.path) - 1) + ' '
                     current_node = current_node.sibling
+
                 print(string)
                 current_level += 1
                 end_node = end_node.left_child
+            #print(str(len(current_node.path)))
 
 
     def do_stuff(self, in_file):
